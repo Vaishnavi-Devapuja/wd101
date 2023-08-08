@@ -8,47 +8,28 @@ emailInput.addEventListener('input', function () {
     emailInput.setCustomValidity('');
 });
 
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
 
 form.addEventListener('submit', function (event) {
     event.preventDefault();
 
     const name = nameInput.value;
-    const email = emailInput.value;
     const password = document.getElementById('password').value;
     const dob = dobInput.value;
     const acceptTerms = document.getElementById('acceptTerms').checked;
 
-    if (!/^[A-Za-z\s]+$/.test(name)) {
-        nameInput.setCustomValidity('Name should contain only alphabets and space characters');
-        nameInput.reportValidity();
-        return;
-    } else {
-        nameInput.setCustomValidity('');
+    const email = emailInput.value; 
+
+    function validate(el) {
+        if (el.validity.typeMismatch) {
+            el.setCustomValidity("The email is not in the right format!");
+            el.reportValidity();
+        } else {
+            el.setCustomValidity("");
+        }
     }
 
-    if (!isValidEmail(email)) {
-        emailInput.setCustomValidity('Invalid email format');
-        emailInput.reportValidity();
-        return;
-    } else {
-        emailInput.setCustomValidity('');
-    }
-
-    const currentDate = new Date();
-    const dobDate = new Date(dob);
-    const age = currentDate.getFullYear() - dobDate.getFullYear();
-
-    if (age < 18 || age > 55) {
-        dobInput.setCustomValidity('Age should be between 18 and 55.');
-        dobInput.reportValidity();
-        return;
-    } else {
-        dobInput.setCustomValidity('');
-    }
+    emailInput.addEventListener("input", () => validate(emailInput));
+  
 
     const userData = { name, email, password, dob, acceptTerms };
     let storedEntries = JSON.parse(localStorage.getItem('userData')) || [];
@@ -59,6 +40,7 @@ form.addEventListener('submit', function (event) {
 
     form.reset();
 });
+
 
 function updateEntriesTable() {
     entriesTable.innerHTML = '';
@@ -78,4 +60,5 @@ function updateEntriesTable() {
 window.addEventListener('load', function () {
     updateEntriesTable();
 });
+
 
