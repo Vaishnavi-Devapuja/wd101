@@ -1,26 +1,26 @@
-const form=document.getElementById('user-form');
-const entriesTable=document.getElementById('entries-body');
-const emailInput=document.getElementById('email');
-const nameInput=document.getElementById('name');
-const dobInput=document.getElementById('dob');
+const form = document.getElementById('user-form');
+const entriesTable = document.getElementById('entries-body');
+const emailInput = document.getElementById('email');
+const nameInput = document.getElementById('name');
+const dobInput = document.getElementById('dob');
 
-emailInput.addEventListener('input',function () {
+emailInput.addEventListener('input', function () {
     emailInput.setCustomValidity('');
 });
 
 function isValidEmail(email) {
-    const emailRegex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 }
 
-form.addEventListener('submit',function(event) {
+form.addEventListener('submit', function (event) {
     event.preventDefault();
 
-    const name=nameInput.value;
-    const email=emailInput.value;
-    const password=document.getElementById('password').value;
-    const dob=dobInput.value;
-    const acceptTerms=document.getElementById('acceptTerms').checked;
+    const name = nameInput.value;
+    const email = emailInput.value;
+    const password = document.getElementById('password').value;
+    const dob = dobInput.value;
+    const acceptTerms = document.getElementById('acceptTerms').checked;
 
     if (!/^[A-Za-z\s]+$/.test(name)) {
         nameInput.setCustomValidity('Name should contain only alphabets and space characters');
@@ -38,11 +38,11 @@ form.addEventListener('submit',function(event) {
         emailInput.setCustomValidity('');
     }
 
-    const currentDate=new Date();
-    const dobDate=new Date(dob);
-    const age=currentDate.getFullYear() - dobDate.getFullYear();
+    const currentDate = new Date();
+    const dobDate = new Date(dob);
+    const age = currentDate.getFullYear() - dobDate.getFullYear();
 
-    if (age<18||age>55) {
+    if (age < 18 || age > 55) {
         dobInput.setCustomValidity('Age should be between 18 and 55.');
         dobInput.reportValidity();
         return;
@@ -50,8 +50,8 @@ form.addEventListener('submit',function(event) {
         dobInput.setCustomValidity('');
     }
 
-    const userData={ name, email, password, dob, acceptTerms };
-    let storedEntries=JSON.parse(localStorage.getItem('userData')) || [];
+    const userData = { name, email, password, dob, acceptTerms };
+    let storedEntries = JSON.parse(localStorage.getItem('userData')) || [];
     storedEntries.push(userData);
     localStorage.setItem('userData', JSON.stringify(storedEntries));
 
@@ -75,6 +75,7 @@ function updateEntriesTable() {
     });
 }
 
-window.addEventListener('load',function() {
+window.addEventListener('load', function () {
     updateEntriesTable();
 });
+
