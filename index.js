@@ -52,19 +52,17 @@ const displayEntries = () => {
 
     const rows = entries
         .map((entry) => {
-            const name = `<td class="td">${entry.name}</td>`;
-            const email = `<td class="td">${entry.email}</td>`;
-            const password = `<td class="td">${entry.password}</td>`;
-            const dob = `<td class="td">${entry.dob}</td>`;
-            const acceptTerms = `<td class="td">${entry.acceptTerms ? "Yes" : "No"}</td>`;
+            const name = `<td>${entry.name}</td>`;
+            const email = `<td>${entry.email}</td>`;
+            const password = `<td>${entry.password}</td>`;
+            const dob = `<td>${entry.dob}</td>`;
+            const acceptTerms = `<td>${entry.acceptTerms ? "Yes" : "No"}</td>`;
 
-            const row = `<tr>${name} ${email} ${password} ${dob} ${acceptTerms}</tr>`;
-            return row;
+            return `<tr>${name}${email}${password}${dob}${acceptTerms}</tr>`;
         })
         .join("\n");
 
     let tableBody = document.getElementById("entries-body");
-
     tableBody.innerHTML = rows;
 };
 
@@ -86,7 +84,6 @@ function saveUserForm(event) {
     };
 
     Entries.push(entry_obj);
-
     localStorage.setItem("userEntry", JSON.stringify(Entries));
 
     displayEntries();
@@ -96,6 +93,7 @@ function saveUserForm(event) {
 window.addEventListener("load", () => {
     displayEntries();
 });
+
 
 
 
